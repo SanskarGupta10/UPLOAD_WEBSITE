@@ -14,6 +14,12 @@ uploadFileButton.addEventListener('click', () => {
     credentialsBox.classList.remove('hidden');
 });
 
+// Add this event listener for the "My Files" button
+const myFilesButton = document.getElementById('myFiles');
+myFilesButton.addEventListener('click', () => {
+    window.location.href = 'myfiles.html'; // Redirect to myfiles page
+});
+
 // Handle "Submit" button in credentials box
 submitCredentials.addEventListener('click', () => {
     const enteredPassword = adminPasswordInput.value;
