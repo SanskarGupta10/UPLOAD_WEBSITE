@@ -19,7 +19,8 @@ submitCredentials.addEventListener('click', () => {
     const enteredPassword = adminPasswordInput.value;
     if (enteredPassword === ADMIN_PASSWORD || enteredPassword === ADMIN_PASSWORD2) {
         alert('Access Granted!');
-        window.location.href = 'index.html'; // Redirect to upload page
+        // Ensure the correct page is redirected
+        window.location.href = '/upload_page.html'; // Correct URL for Firebase hosting
     } else {
         alert('Invalid Credentials. Try Again.');
     }

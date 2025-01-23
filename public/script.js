@@ -1,11 +1,11 @@
-// Import Firebase storage
+// Initialize Firebase
 const firebaseApp = firebase.initializeApp({
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyChehyZoJCLQ5teGdLG6mfEMduQe5zkPL8",
+    authDomain: "testing-project-ed675.firebaseapp.com",
+    projectId: "testing-project-ed675",
+    storageBucket: "testing-project-ed675.firebasestorage.app",
+    messagingSenderId: "919188174861",
+    appId: "1:919188174861:web:0e0d38c95987cc1a027d44",
 });
 const storage = firebaseApp.storage();
 
@@ -13,16 +13,36 @@ const storage = firebaseApp.storage();
 const fileInput = document.getElementById('fileInput');
 const uploadButton = document.getElementById('uploadButton');
 const saveButton = document.getElementById('saveButton');
+const fileDisplay = document.getElementById('fileDisplay');
 
 let selectedFile;
 
 // Handle file selection
 fileInput.addEventListener('change', (event) => {
     selectedFile = event.target.files[0];
+
     if (selectedFile) {
-        alert(`Selected file: ${selectedFile.name}`);
+        const fileName = selectedFile.name;
+        const fileType = selectedFile.type.split('/')[1];
+
+        // Display selected file
+        fileDisplay.innerHTML = `
+            <p>Selected file: ${fileName} (${fileType.toUpperCase()})</p>
+            <button id="deselectButton">Remove</button>
+        `;
+
+        // Handle file deselection
+        document.getElementById('deselectButton').addEventListener('click', () => {
+            deselectFile();
+        });
     }
 });
+
+// Function to deselect the file
+function deselectFile() {
+    selectedFile = null;
+    fileDisplay.innerHTML = '';
+}
 
 // Handle upload preparation
 uploadButton.addEventListener('click', () => {
@@ -59,6 +79,7 @@ saveButton.addEventListener('click', () => {
             // Get the download URL upon successful upload
             uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                 alert(`File uploaded successfully! Download URL: ${downloadURL}`);
+                deselectFile(); // Clear the file display after successful upload
             });
         }
     );

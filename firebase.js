@@ -1,15 +1,22 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getStorage } from "firebase/storage";
 
-// Firebase configuration
+// Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCafD6z3UNmUQsmypTCYLPumUT7nbI8hMk",
-    authDomain: "fileuploaderproject-4e3e6.firebaseapp.com",
-    projectId: "fileuploaderproject-4e3e6",
-    storageBucket: "fileuploaderproject-4e3e6.firebasestorage.app",
-    messagingSenderId: "80093178966",
-    appId: "1:80093178966:web:d6fe90b25fe22230345ff7"
-  };
+  apiKey: "AIzaSyChehyZoJCLQ5teGdLG6mfEMduQe5zkPL8",
+  authDomain: "testing-project-ed675.firebaseapp.com",
+  projectId: "testing-project-ed675",
+  storageBucket: "testing-project-ed675.firebasestorage.app",
+  messagingSenderId: "919188174861",
+  appId: "1:919188174861:web:0e0d38c95987cc1a027d44",
+  measurementId: "G-82212XKRDK"
+};
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const storage = getStorage(app);
+
+export { app, storage };

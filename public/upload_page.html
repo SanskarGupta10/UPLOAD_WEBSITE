@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Data</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Upload Data</h1>
+        <label for="fileInput" class="custom-file-input">
+            Choose File
+            <input type="file" id="fileInput" accept=".xls,.xlsx,.csv,.jpg,.png" hidden />
+        </label>
+        <div id="fileDisplay"></div>
+        <button id="uploadButton">Upload</button>
+        <button id="saveButton">Save File</button>
+        <p style="margin-top: 20px; font-size: 0.9rem; color: #bbbbbb;">Only .xls, .xlsx, .csv, .jpg, .png file formats
+            are allowed.</p>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
+        import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyChehyZoJCLQ5teGdLG6mfEMduQe5zkPL8",
+            authDomain: "testing-project-ed675.firebaseapp.com",
+            projectId: "testing-project-ed675",
+            storageBucket: "testing-project-ed675.firebasestorage.app",
+            messagingSenderId: "919188174861",
+            appId: "1:919188174861:web:0e0d38c95987cc1a027d44"
+        };
+
+        // Initialize Firebase explicitly
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app);
+
+        // DOM Elements
+        const fileInput = document.getElementById('fileInput');
+        const uploadButton = document.getElementById('uploadButton');
+        const saveButton = document.getElementById('saveButton');
+        const fileDisplay = document.getElementById('fileDisplay');
+
+        let selectedFile;
+
+        // Handle file selection
+        fileInput.addEventListener('change', (event) => {
+            selectedFile = event.target.files[0];
+
+            if (selectedFile) {
+                const fileName = selectedFile.name;
+                const fileType = selectedFile.type.split('/')[1];
+
+                // Display selected file
+                fileDisplay.innerHTML = `
+                    <p>Selected file: ${fileName} (${fileType.toUpperCase()})</p>
+                    <button id="deselectButton">Remove</button>
+                `;
+
+                // Handle file deselection
+                document.getElementById('deselectButton').addEventListener('click', () => {
+                    deselectFile();
+                });
+            }
+        });
+
+        // Function to deselect the file
+        function deselectFile() {
+            selectedFile = null;
+            fileDisplay.innerHTML = '';
+            fileInput.value = ''; // Reset file input
+        }
+
+        // Handle upload preparation
+        uploadButton.addEventListener('click', () => {
+            if (!selectedFile) {
+                alert('Please select a file first.');
+                return;
+            }
+            alert('File is ready to upload. Click "Save File" to proceed.');
+        });
+
+        // Save file to Firebase Storage
+        saveButton.addEventListener('click', () => {
+            if (!selectedFile) {
+                alert('Please select a file first.');
+                return;
+            }
+
+            // Create a reference to the file location in Firebase Storage
+            const storageRef = ref(storage, `uploads/${selectedFile.name}`);
+
+            // Upload the file to Firebase Storage
+            uploadBytes(storageRef, selectedFile).then((snapshot) => {
+                console.log('Upload is complete');
+
+                // Get the download URL after successful upload
+                return getDownloadURL(snapshot.ref);
+            }).then((downloadURL) => {
+                // Alert user and redirect to homepage
+                alert('File uploaded successfully!');
+                window.location.href = 'homepage.html'; // Replace with your actual homepage path
+            }).catch((error) => {
+                console.error('Upload failed:', error);
+                alert('An error occurred during the upload. Please try again.');
+            });
+        });
+    </script>
+</body>
+
+</html>
