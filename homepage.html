@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="homepage.css">
+    <script src="homepage.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="clickable" id="viewAnalysis">
+            View Analysis
+        </div>
+        <div class="clickable" id="uploadFile">
+            Upload File
+        </div>
+        <div class="clickable" id="myFiles">
+            My Files
+        </div>
+    </div>
+
+    <!-- Hidden Admin Credentials Box -->
+    <div class="credentials-box hidden" id="credentialsBox">
+        <h2>Enter Admin Credentials</h2>
+        <input type="password" id="adminPassword" placeholder="Enter Password">
+        <button id="submitCredentials">Submit</button>
+        <button id="cancelCredentials">Cancel</button>
+    </div>
+</body>
+</html>
